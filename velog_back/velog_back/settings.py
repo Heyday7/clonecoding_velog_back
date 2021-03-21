@@ -92,8 +92,12 @@ WSGI_APPLICATION = 'velog_back.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'velog_postgres',
+        'USER': 'velog_postgres',
+        'PASSWORD': 'velog_postgres',
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 

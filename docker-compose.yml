@@ -1,0 +1,26 @@
+version: '3'
+
+volumes:
+  velog_postgres_db: {} #velog 데이터 저장용 db volume
+
+services:
+  db:
+    image: postgres #최신 postgres image를 받아옴
+    volumes:
+      - velog_postgres_db:/var/lib/postgresql/data
+    environment: 
+      - POSTGRES_DB=velog_postgres
+      - POSTGRES_USER=velog_postgres
+      - POSTGRES_PASSWORD=velog_postgres
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app/
+    depends_on:
+      - db
