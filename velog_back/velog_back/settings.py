@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'account',
     'board',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -64,7 +65,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST =  (
+    'http://localhost:3000',
+    'http://localhost:8000',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:8000',
+)
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'velog_back.urls'
 
@@ -120,6 +132,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
