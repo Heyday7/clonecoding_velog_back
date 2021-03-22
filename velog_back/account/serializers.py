@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-
+from django.contrib.auth import authenticate, login
 class UserSerializer(serializers.ModelSerializer):
   confirm = serializers.CharField(max_length=100, write_only=True)
   email = serializers.EmailField(required=True)
@@ -30,4 +30,19 @@ class UserSerializer(serializers.ModelSerializer):
 
     return instance
 
+class LoginSerializer(serializers.Serializer):
+  username = serializers.CharField(max_length=100, required=True)
+  password = serializers.CharField(max_length=100, required=True)
+
+  def validate(self, data):
+    user = authenticate(username=data['username'], password=data['password'])
+    if user is None:
+      raise serializers.ValidationError('username 혹은 password가 일치하지 않습니다.')
+    
+    return data
+
+  def perform_login(self, request):
+    user = authenticate(username=request.data['username'], password=request.data['password'])
+    login(request, user)
+    return user
 
