@@ -9,8 +9,7 @@ class PostViewSet(viewsets.ModelViewSet):
   serializer_class = PostSerializer
 
   def perform_create(self, serializer):
-    # serializer.save(user=self.request.user)
-    serializer.save(user=User.objects.get(id=1))
+    serializer.save(user=self.request.user)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -18,8 +17,7 @@ class CommentViewSet(viewsets.ModelViewSet):
   serializer_class = CommentSerializer
   
   def perform_create(self, serializer):
-    # serializer.save(user=self.request.user, post=Post.objects.get(id=self.kwargs['post_id']))
-    serializer.save(user=User.objects.get(id=1), post=Post.objects.get(id=self.kwargs['post_id']))
+    serializer.save(user=self.request.user, post=Post.objects.get(id=self.kwargs['post_id']))
 
 
 class SeriesViewSet(viewsets.ModelViewSet):

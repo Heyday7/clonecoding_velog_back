@@ -1,13 +1,6 @@
 from rest_framework import serializers
 from .models import *
 
-class TagSerializer(serializers.ModelSerializer):
-  # posts = serializers.
-
-  class Meta:
-    model = Tag
-    fields = ['id', 'name', 'posts']
-
 
 class CommentSerializer(serializers.ModelSerializer):
   user = serializers.CharField(read_only=True)
@@ -29,7 +22,6 @@ class CommentSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
   user = serializers.CharField(read_only=True)
   comments = CommentSerializer(many=True, read_only=True)
-  tag = TagSerializer(many=True, read_only=True)
   
 
   class Meta:
@@ -43,8 +35,16 @@ class PostSerializer(serializers.ModelSerializer):
       'series', 
       'user', 
       'comments', 
-      'tag'
+      'tags'
     ]
+    extra_kwargs= {'tags': {'required': False}}
+
+class TagSerializer(serializers.ModelSerializer):
+  posts = PostSerializer(many=True, read_only=True)
+  class Meta:
+    model = Tag
+    fields = ['id', 'name', 'posts']
+    extra_kwargs = {'posts': {'required': False}}
 
 
 class SeriesSerializer(serializers.ModelSerializer):

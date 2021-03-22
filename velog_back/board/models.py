@@ -57,7 +57,7 @@ class Comment(models.Model):
 class Tag(models.Model):
   name = models.CharField(max_length=100, unique=True)
   posts = models.ManyToManyField(
-    Post, blank=True
+    Post, related_name='tags', blank=True
   )
   
   def __str__(self):
