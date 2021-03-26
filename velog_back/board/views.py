@@ -5,6 +5,7 @@ from .models import *
 from django.contrib.auth.models import User
 from .filters import PostFilter
 from .pagination import CustomPageNumberPagination
+from .permissions import isAuthorOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -13,6 +14,7 @@ class PostViewSet(viewsets.ModelViewSet):
   filter_backends = (DjangoFilterBackend, )
   filterset_class = PostFilter
   pagination_class = CustomPageNumberPagination
+  permission_classes = [isAuthorOrReadOnly]
 
   def perform_create(self, serializer):
     serializer.save(user=self.request.user)
@@ -21,6 +23,7 @@ class PostViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
   queryset = Comment.objects.all()
   serializer_class = CommentSerializer
+  permission_classes = [isAuthorOrReadOnly]
   
   def perform_create(self, serializer):
     serializer.save(user=self.request.user, post=Post.objects.get(id=self.kwargs['post_id']))
