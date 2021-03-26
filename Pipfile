@@ -8,6 +8,8 @@ django = "*"
 djangorestframework = "*"
 psycopg2-binary = "*"
 django-cors-headers = "*"
+django-filter = "*"
+ipdb = "*"
 
 [dev-packages]
 
