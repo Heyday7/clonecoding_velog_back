@@ -4,6 +4,7 @@ from .serializers import *
 from .models import *
 from django.contrib.auth.models import User
 from .filters import PostFilter
+from .pagination import CustomPageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -11,6 +12,7 @@ class PostViewSet(viewsets.ModelViewSet):
   serializer_class = PostSerializer
   filter_backends = (DjangoFilterBackend, )
   filterset_class = PostFilter
+  pagination_class = CustomPageNumberPagination
 
   def perform_create(self, serializer):
     serializer.save(user=self.request.user)
