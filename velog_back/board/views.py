@@ -3,10 +3,14 @@ from rest_framework import viewsets
 from .serializers import *
 from .models import *
 from django.contrib.auth.models import User
+from .filters import PostFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 class PostViewSet(viewsets.ModelViewSet):
-  queryset = Post.objects.all()
+  queryset = Post.objects.all().order_by('-created_at')
   serializer_class = PostSerializer
+  filter_backends = (DjangoFilterBackend, )
+  filterset_class = PostFilter
 
   def perform_create(self, serializer):
     serializer.save(user=self.request.user)
